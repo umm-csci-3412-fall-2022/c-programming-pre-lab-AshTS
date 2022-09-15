@@ -28,7 +28,13 @@ char const *strip(char const *str) {
   // consisted of nothing but spaces, so we'll return the
   // empty string.
   if (num_spaces >= size) {
-    return "";
+    // Note that if we just returned an empty string here,
+    // we would not be able to say we always return a heap
+    // allocated string, so we instead allocate the single
+    // byte on the heap which is just the null character.
+    char* result = (char*) calloc(1, sizeof(char));
+    *result = 0;
+    return result;
   }
 
   // Allocate a slot for all the "saved" characters
@@ -60,6 +66,10 @@ int is_clean(char const *str) {
   // 0 if they're equal, and a positive value if the first is
   // greater than the second.
   int result = strcmp(str, cleaned);
-
+  
+  // The cleaned string was allocated on the heap, so we need to
+  // free it.
+  free((void*)cleaned);   
+ 
   return result == 0;
 }
