@@ -4,7 +4,9 @@
 
 /*
  * Strips spaces from both the front and back of a string,
- * leaving any internal spaces alone.
+ * leaving any internal spaces alone. Note that this
+ * function returns a string which is allocated on the
+ * heap and therefore must be freed.
  */
 char const *strip(char const *str) {
   int size = strlen(str);
